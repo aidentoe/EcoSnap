@@ -1,17 +1,42 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   background-color: #f0fdf4;
   color: #065f46;
-  text-align: center;
+  margin: 0;
   padding: 2rem;
+  text-align: center;
 }
 
 .container {
   max-width: 600px;
   margin: auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+input[type="file"] {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+#preview img {
+  margin-top: 1rem;
+  max-width: 100%;
+  border-radius: 8px;
 }
 
 #result {
   margin-top: 1rem;
   font-size: 1.2rem;
+  font-weight: bold;
+}
+
+footer {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #888;
 }
