@@ -25,7 +25,7 @@ header {
 #sidebar {
   position: fixed;
   top: 0;
-  right: -250px; /* fully hidden */
+  right: -250px;
   width: 250px;
   height: 100%;
   background: #43a047;
@@ -57,7 +57,7 @@ main {
   text-align: center;
 }
 
-input[type="file"], button {
+input[type="file"], input[type="text"], input[type="number"], button {
   margin: 0.5rem 0;
 }
 
