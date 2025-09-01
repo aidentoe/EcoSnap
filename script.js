@@ -1,30 +1,45 @@
-document.getElementById('upload').addEventListener('change', function (e) {
-  const file = e.target.files[0];
+const dropzone = document.getElementById("dropzone");
+const fileInput = document.getElementById("fileInput");
+const result = document.getElementById("result");
+
+// Keywords for classification
+const categories = {
+  compost: ["banana", "apple", "peel", "food", "leaf", "coffee", "egg"],
+  recycle: ["bottle", "can", "cardboard", "paper", "box", "plastic"],
+  garbage: ["chip", "styrofoam", "wrapper", "bag", "waste"]
+};
+
+// Handle drag and drop
+dropzone.addEventListener("click", () => fileInput.click());
+dropzone.addEventListener("dragover", e => {
+  e.preventDefault();
+  dropzone.classList.add("drag");
+});
+dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag"));
+dropzone.addEventListener("drop", e => {
+  e.preventDefault();
+  dropzone.classList.remove("drag");
+  handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener("change", e => handleFile(e.target.files[0]));
+
+function handleFile(file) {
   if (!file) return;
+  classifyItem(file.name.toLowerCase());
+}
 
-  // Preview image
-  const preview = document.getElementById('preview');
-  preview.innerHTML = '';
-  const img = document.createElement('img');
-  img.src = URL.createObjectURL(file);
-  preview.appendChild(img);
+function classifyItem(filename) {
+  let category = "garbage"; // default
+  let emoji = "🗑️";
 
-  // Classification logic
-  const name = file.name.toLowerCase();
-  let type = 'Garbage 🗑️';
-  let color = '#fee2e2'; // red
-
-  if (name.includes('plastic') || name.includes('can') || name.includes('paper')) {
-    type = 'Recycle ♻️';
-    color = '#dbeafe'; // blue
-  } else if (name.includes('banana') || name.includes('food') || name.includes('leaf')) {
-    type = 'Compost 🌿';
-    color = '#dcfce7'; // green
+  if (categories.compost.some(word => filename.includes(word))) {
+    category = "compost";
+    emoji = "🌿";
+  } else if (categories.recycle.some(word => filename.includes(word))) {
+    category = "recycle";
+    emoji = "♻️";
   }
 
-  const result = document.getElementById('result');
-  result.textContent = `Classification: ${type}`;
-  result.style.backgroundColor = color;
-  result.style.padding = '1rem';
-  result.style.borderRadius = '8px';
-});
+  result.className = "result " + category;
+  result.textContent = `${emoji} This item goes to ${category.toUpperCase()}`;
+}
