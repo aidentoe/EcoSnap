@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EcoSnap ♻️ – Simple Waste Classifier</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSnap</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
     <header>
-      <div class="logo">🌿</div>
-      <div>
-        <h1>EcoSnap</h1>
-        <p class="tagline">Simple Waste Classification Web App</p>
-      </div>
+        <h1>🌿 EcoSnap</h1>
+        <p>Snap a photo, classify waste, and learn how to dispose of it properly!</p>
     </header>
 
-    <main class="card grid">
-      <div class="dropzone" id="dropzone">
-        <input type="file" id="fileInput" />
-        <div class="dz-title">Upload an item 📸</div>
-        <div class="dz-hint">Drag & drop or click to choose a file</div>
-      </div>
-      <div id="result" class="result">
-        <p>No item classified yet.</p>
-      </div>
+    <main>
+        <section class="upload-section">
+            <h2>Upload Item</h2>
+            <div class="drop-area" id="drop-area">
+                <p>Drag & Drop your image here</p>
+                <input type="file" id="fileElem" accept="image/*">
+                <label class="button" for="fileElem">Or choose a file</label>
+            </div>
+        </section>
+
+        <section class="result-section" id="result-section">
+            <h2>Classification Result</h2>
+            <div id="result">
+                <p>No item scanned yet.</p>
+            </div>
+        </section>
+
+        <section class="history-section" id="history-section">
+            <h2>History</h2>
+            <div id="history">
+                <p>No items scanned yet.</p>
+            </div>
+        </section>
     </main>
-  </div>
-  <script src="script.js"></script>
+
+    <footer>
+        <p>EcoSnap &copy; 2025 | <a href="https://aidentoe.github.io/EcoSnap/" target="_blank">See Live App</a></p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
