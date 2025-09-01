@@ -4,42 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EcoSnap</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e6f5e9;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #2e7d32;
+      color: white;
+      padding: 1rem;
+      font-size: 1.5rem;
+    }
+
+    main {
+      margin: 2rem auto;
+      max-width: 500px;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .upload-section {
+      margin: 1.5rem 0;
+    }
+
+    input[type="file"] {
+      margin: 1rem 0;
+    }
+
+    button {
+      background: #43a047;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #2e7d32;
+    }
+
+    img {
+      max-width: 100%;
+      margin-top: 1rem;
+      border-radius: 8px;
+    }
+
+    #result {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🌿 EcoSnap</h1>
-    <p>Snap a photo, classify waste, and learn how to dispose of it properly!</p>
-  </header>
+  <header>🌿 EcoSnap</header>
 
   <main>
-    <section class="upload-section">
-      <h2>Upload Item</h2>
-      <div class="drop-area" id="drop-area">
-        <p>Drag & Drop your image here</p>
-        <input type="file" id="fileElem" accept="image/*">
-        <label class="button" for="fileElem">Or choose a file</label>
-      </div>
-    </section>
+    <h2>Upload Item</h2>
+    <p>Select an item to see which bin it belongs in.</p>
 
-    <section class="result-section" id="result-section">
-      <h2>Classification Result</h2>
-      <div id="result">
-        <p>No item scanned yet.</p>
-      </div>
-    </section>
+    <div class="upload-section">
+      <input type="file" id="fileInput" accept="image/*">
+      <br>
+      <button id="submit">Classify Item</button>
+    </div>
 
-    <section class="history-section" id="history-section">
-      <h2>History</h2>
-      <div id="history">
-        <p>No items scanned yet.</p>
-      </div>
-    </section>
+    <img id="preview" src="" alt="Preview will appear here">
+    <div id="result"></div>
   </main>
-
-  <footer>
-    <p>EcoSnap &copy; 2025 | <a href="https://aidentoe.github.io/EcoSnap/" target="_blank">See Live App</a></p>
-  </footer>
 
   <script src="script.js"></script>
 </body>
