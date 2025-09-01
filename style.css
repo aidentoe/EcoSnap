@@ -1,76 +1,116 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(-45deg, #a8edea, #fed6e3, #f9fbc8, #c2f0fc);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    color: #333;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(-45deg, #a8e6a3, #7ed957, #52b788, #9ef01a);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: #fff;
 }
 
 header {
-    text-align: center;
-    padding: 2rem;
+  text-align: center;
+  padding: 2rem;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
 }
 
 header h1 {
-    font-size: 2.5rem;
+  font-size: 2.5rem;
+  animation: popIn 1s ease forwards;
 }
 
 header p {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
 }
 
+/* Sections */
 main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 section {
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  backdrop-filter: blur(5px);
 }
 
+/* Buttons */
+button, .button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  display: inline-block;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+button:hover, .button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #4CAF50;
+}
+
+/* Drop area */
 .drop-area {
-    border: 2px dashed #888;
-    border-radius: 10px;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s;
+  border: 2px dashed #fff;
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .drop-area:hover {
-    border-color: #4CAF50;
-    background-color: #f0fff0;
+  border-color: #4CAF50;
+  background-color: rgba(255,255,255,0.1);
 }
 
-button, .button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    display: inline-block;
-    text-decoration: none;
-}
-
+/* Result & History */
 #result img, #history img {
-    max-width: 100px;
-    border-radius: 10px;
-    margin: 0.5rem;
+  max-width: 100px;
+  border-radius: 10px;
+  margin: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  animation: fadeIn 0.8s ease;
 }
 
-/* Gradient animation */
+.history-item {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.history-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #4CAF50;
+}
+
+/* Animations */
 @keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes popIn {
+  from {transform: scale(0);}
+  to {transform: scale(1);}
 }
