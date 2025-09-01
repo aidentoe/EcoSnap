@@ -29,19 +29,24 @@
   <button id="done" style="display:none;">Done</button>
 
   <video id="cameraStream" autoplay style="display:none;"></video>
-  <img id="preview" src="" alt="Preview will appear here">
+  <img id="preview" style="display:none;" alt="">
   <div id="result"></div>
 </main>
 
 <main id="historyPage" style="display:none;">
   <h3>History</h3>
   <div id="historyList"></div>
+  <button id="clearHistory">Clear History</button>
   <button id="backHome">Back</button>
 </main>
 
 <main id="challengePage" style="display:none;">
   <h3>Challenge Board</h3>
   <div id="taskList"></div>
+  <h4>Create Custom Challenge</h4>
+  <input type="text" id="customName" placeholder="Challenge Name">
+  <input type="number" id="customGoal" placeholder="Goal">
+  <button id="addCustomChallenge">Add Challenge</button>
   <button id="backHomeChallenge">Back</button>
 </main>
 
@@ -54,4 +59,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-//n
