@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const backHomeChallenge = document.getElementById('backHomeChallenge');
   const backHomeStreak = document.getElementById('backHomeStreak');
 
+  const clearHistoryBtn = document.getElementById('clearHistory');
+  const customNameInput = document.getElementById('customName');
+  const customGoalInput = document.getElementById('customGoal');
+  const addCustomBtn = document.getElementById('addCustomChallenge');
+
   // Sidebar toggle
   hamburger.addEventListener('click', () => {
     if(sidebar.classList.contains('active')){
@@ -52,13 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   homeLink.addEventListener('click', () => showPage(mainPage));
   historyLink.addEventListener('click', () => {
     showPage(historyPage);
-    const history = JSON.parse(localStorage.getItem('ecoHistory')) || [];
-    historyList.innerHTML = history.map(item => `
-      <div class="historyItem">
-        <img src="${item.file}" alt="Thumbnail">
-        <span>${item.category} - ${item.date}</span>
-      </div>
-    `).join('');
+    renderHistory();
   });
   challengesLink.addEventListener('click', () => { showPage(challengePage); renderTasks(); });
   streakLink.addEventListener('click', () => { showPage(streakPage); updateStreak(); });
@@ -74,13 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const reader = new FileReader();
       reader.onload = e => {
         previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
         resultContainer.textContent = '';
       };
       reader.readAsDataURL(file);
     }
   });
 
-  // Classification (works for gallery or camera)
+  // Classification
   submitButton.addEventListener('click', () => {
     if(!fileInput.files[0] && !previewImage.src){
       alert('Please select a file first!');
@@ -95,13 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
       doneButton.style.display='inline-block';
       submitButton.style.display='none';
 
+      previewImage.style.display='block';
       const imageData = previewImage.src;
+
       let history = JSON.parse(localStorage.getItem('ecoHistory'))||[];
       history.push({ file:imageData, category:randomBin, date:new Date().toLocaleDateString() });
       localStorage.setItem('ecoHistory', JSON.stringify(history));
 
       updateStreak();
-      checkChallenges();
+      autoCompleteChallenges(randomBin);
+      renderTasks();
     },1000);
   });
 
@@ -109,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
   doneButton.addEventListener('click', ()=>{
     fileInput.value='';
     previewImage.src='';
+    previewImage.style.display='none';
     resultContainer.textContent='';
     doneButton.style.display='none';
     submitButton.style.display='inline-block';
@@ -133,27 +137,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(err=>alert('Camera access denied or unavailable'));
   });
 
-  // Challenges
-  const tasks=[
-    {name:'Recycle 3 items today', completed:false},
-    {name:'Compost 1 item', completed:false},
-    {name:'Use reusable bag', completed:false}
+  // Default & custom tasks
+  let tasks=[
+    {name:'Recycle 3 items today', completed:false, type:'recycle', goal:3, progress:0},
+    {name:'Compost 1 item', completed:false, type:'compost', goal:1, progress:0},
+    {name:'Use reusable bag', completed:false, type:'bag', goal:1, progress:0}
   ];
 
   function renderTasks(){
     taskList.innerHTML='';
-    tasks.forEach((task,i)=>{
+    const customTasks = JSON.parse(localStorage.getItem('ecoCustomTasks'))||[];
+    [...tasks,...customTasks].forEach((task,i)=>{
       const div=document.createElement('div');
       div.className='task';
-      div.innerHTML=`<span>${task.name}</span><button>${task.completed?'✔':'Mark'}</button>`;
+      div.innerHTML=`<span>${task.name} (${task.progress}/${task.goal})</span><button>${task.completed?'✔':'Mark'}</button>`;
       const btn=div.querySelector('button');
       btn.addEventListener('click',()=>{
         task.completed=true;
         btn.textContent='✔';
+        task.progress = task.goal;
+        saveCustomTasks();
+        renderTasks();
       });
       taskList.appendChild(div);
     });
   }
+
+  function autoCompleteChallenges(category){
+    tasks.forEach(task=>{
+      if(task.type==='recycle' && category==='Recycling'){ task.progress++; }
+      if(task.type==='compost' && category==='Compost'){ task.progress++; }
+      if(task.progress>=task.goal){ task.completed=true; }
+    });
+    saveCustomTasks();
+  }
+
+  function saveCustomTasks(){
+    const customTasks = JSON.parse(localStorage.getItem('ecoCustomTasks'))||[];
+    localStorage.setItem('ecoCustomTasks', JSON.stringify(customTasks));
+  }
+
+  addCustomBtn.addEventListener('click',()=>{
+    const name = customNameInput.value.trim();
+    const goal = parseInt(customGoalInput.value);
+    if(name && goal>0){
+      const customTasks = JSON.parse(localStorage.getItem('ecoCustomTasks'))||[];
+      customTasks.push({name:name, completed:false, goal:goal, progress:0});
+      localStorage.setItem('ecoCustomTasks', JSON.stringify(customTasks));
+      customNameInput.value=''; customGoalInput.value='';
+      renderTasks();
+    }
+  });
 
   // Streak
   function updateStreak(){
@@ -169,6 +203,22 @@ document.addEventListener('DOMContentLoaded', () => {
     streakCountEl.textContent=streakData.count;
   }
 
-  function checkChallenges(){ renderTasks(); }
+  // History
+  function renderHistory(){
+    const history = JSON.parse(localStorage.getItem('ecoHistory'))||[];
+    historyList.innerHTML=history.map(item=>`
+      <div class="historyItem">
+        <img src="${item.file}" alt="Thumbnail">
+        <span>${item.category} - ${item.date}</span>
+      </div>
+    `).join('');
+  }
+
+  clearHistoryBtn.addEventListener('click',()=>{
+    if(confirm('Are you sure you want to delete all history?')){
+      localStorage.removeItem('ecoHistory');
+      renderHistory();
+    }
+  });
 
 });
