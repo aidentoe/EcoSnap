@@ -1,0 +1,17 @@
+body {
+  font-family: sans-serif;
+  background-color: #f0fdf4;
+  color: #065f46;
+  text-align: center;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+#result {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
