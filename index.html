@@ -1,88 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EcoSnap</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #e6f5e9;
-      color: #333;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background: #2e7d32;
-      color: white;
-      padding: 1rem;
-      font-size: 1.5rem;
-    }
-
-    main {
-      margin: 2rem auto;
-      max-width: 500px;
-      padding: 2rem;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .upload-section {
-      margin: 1.5rem 0;
-    }
-
-    input[type="file"] {
-      margin: 1rem 0;
-    }
-
-    button {
-      background: #43a047;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #2e7d32;
-    }
-
-    img {
-      max-width: 100%;
-      margin-top: 1rem;
-      border-radius: 8px;
-    }
-
-    #result {
-      margin-top: 1.5rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoSnap</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>🌿 EcoSnap</header>
+<header>
+  🌿 EcoSnap
+  <div class="hamburger" id="hamburger">☰</div>
+</header>
 
-  <main>
-    <h2>Upload Item</h2>
-    <p>Select an item to see which bin it belongs in.</p>
+<div id="sidebar">
+  <a href="#" id="homeLink">Home</a>
+  <a href="#" id="historyLink">History</a>
+  <a href="#" id="challengesLink">Challenge Board</a>
+  <a href="#" id="streakLink">Streak Page</a>
+</div>
 
-    <div class="upload-section">
-      <input type="file" id="fileInput" accept="image/*">
-      <br>
-      <button id="submit">Classify Item</button>
-    </div>
+<main id="mainPage">
+  <h2>Upload Item</h2>
+  <p>Select an item to see which bin it belongs in.</p>
 
-    <img id="preview" src="" alt="Preview will appear here">
-    <div id="result"></div>
-  </main>
+  <input type="file" id="fileInput" accept="image/*"><br>
+  <button id="cameraBtn">Use Camera</button><br>
+  <button id="submit">Classify Item</button>
+  <button id="done" style="display:none;">Done</button>
 
-  <script src="script.js"></script>
+  <video id="cameraStream" autoplay style="display:none;"></video>
+  <img id="preview" src="" alt="Preview will appear here">
+  <div id="result"></div>
+</main>
+
+<main id="historyPage" style="display:none;">
+  <h3>History</h3>
+  <div id="historyList"></div>
+  <button id="backHome">Back</button>
+</main>
+
+<main id="challengePage" style="display:none;">
+  <h3>Challenge Board</h3>
+  <div id="taskList"></div>
+  <button id="backHomeChallenge">Back</button>
+</main>
+
+<main id="streakPage" style="display:none;">
+  <h3>Streak Page</h3>
+  <p>Current Streak: <span id="streakCount">0</span> days</p>
+  <button id="backHomeStreak">Back</button>
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
