@@ -1,45 +1,80 @@
-const dropzone = document.getElementById("dropzone");
-const fileInput = document.getElementById("fileInput");
-const result = document.getElementById("result");
+const dropArea = document.getElementById('drop-area');
+const fileInput = document.getElementById('fileElem');
+const resultDiv = document.getElementById('result');
+const historyDiv = document.getElementById('history');
 
-// Keywords for classification
-const categories = {
-  compost: ["banana", "apple", "peel", "food", "leaf", "coffee", "egg"],
-  recycle: ["bottle", "can", "cardboard", "paper", "box", "plastic"],
-  garbage: ["chip", "styrofoam", "wrapper", "bag", "waste"]
-};
+let history = [];
 
-// Handle drag and drop
-dropzone.addEventListener("click", () => fileInput.click());
-dropzone.addEventListener("dragover", e => {
-  e.preventDefault();
-  dropzone.classList.add("drag");
+// Drag & Drop handlers
+dropArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropArea.classList.add('highlight');
 });
-dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag"));
-dropzone.addEventListener("drop", e => {
-  e.preventDefault();
-  dropzone.classList.remove("drag");
-  handleFile(e.dataTransfer.files[0]);
+
+dropArea.addEventListener('dragleave', () => {
+    dropArea.classList.remove('highlight');
 });
-fileInput.addEventListener("change", e => handleFile(e.target.files[0]));
+
+dropArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropArea.classList.remove('highlight');
+    const file = e.dataTransfer.files[0];
+    handleFile(file);
+});
+
+fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    handleFile(file);
+});
 
 function handleFile(file) {
-  if (!file) return;
-  classifyItem(file.name.toLowerCase());
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const imgSrc = e.target.result;
+        classifyItem(imgSrc);
+    }
+    reader.readAsDataURL(file);
 }
 
-function classifyItem(filename) {
-  let category = "garbage"; // default
-  let emoji = "🗑️";
+// Simulate classification and tips
+function classifyItem(imgSrc) {
+    // Fake classification for demo purposes
+    const categories = ['Recycling ♻️', 'Compost 🍂', 'Trash 🗑️'];
+    const tips = [
+        "Rinse containers before recycling.",
+        "Plastic bags go to specialized bins.",
+        "Composting reduces methane emissions."
+    ];
 
-  if (categories.compost.some(word => filename.includes(word))) {
-    category = "compost";
-    emoji = "🌿";
-  } else if (categories.recycle.some(word => filename.includes(word))) {
-    category = "recycle";
-    emoji = "♻️";
-  }
+    const randomIndex = Math.floor(Math.random() * categories.length);
+    const category = categories[randomIndex];
+    const tip = tips[randomIndex];
 
-  result.className = "result " + category;
-  result.textContent = `${emoji} This item goes to ${category.toUpperCase()}`;
+    // Show result
+    resultDiv.innerHTML = `
+        <img src="${imgSrc}" alt="Scanned item">
+        <p><strong>Category:</strong> ${category}</p>
+        <p><em>Tip:</em> ${tip}</p>
+    `;
+
+    // Add to history
+    history.push({ img: imgSrc, category, tip });
+    updateHistory();
+}
+
+function updateHistory() {
+    if (history.length === 0) {
+        historyDiv.innerHTML = `<p>No items scanned yet.</p>`;
+        return;
+    }
+
+    historyDiv.innerHTML = history.map(item => `
+        <div>
+            <img src="${item.img}" alt="History item">
+            <p>${item.category}</p>
+            <p><em>${item.tip}</em></p>
+        </div>
+    `).join('');
 }
